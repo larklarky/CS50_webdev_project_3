@@ -8,3 +8,23 @@ textarea {
     border-color: #ebccd1;
     padding: 10px 15px 10px 15px;
 }
+
+#emails-view {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 2rem;
+}
+
+.email-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid rgb(87, 85, 85);
+    margin: 1rem 0 1rem 0;
+    width: 100%;
+    padding: 10px;
+}
+
+.email-sender {
+
+}
