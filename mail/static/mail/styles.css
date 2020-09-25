@@ -25,6 +25,33 @@ textarea {
     padding: 10px;
 }
 
-.email-sender {
+.email-container:hover {
+    background-color: rgba(123, 160, 230, 0.459);
+    cursor: pointer;
+}
+.read {
+    background-color: rgba(129, 134, 136, 0.38);
+}
 
+.email-head {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 0.7rem;
+}
+
+.email-body {
+    display: block;
+    width: 70%;
+    min-height: 200px;
+    border: 1px solid black;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    margin-top: 1rem;
+}
+
+.archive {
+    display: inline;
+    background-color: gray;
+    border-color: gray;
 }

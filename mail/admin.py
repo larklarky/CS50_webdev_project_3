@@ -3,7 +3,7 @@ from .models import User, Email
 
 
 class EmailAdmin(admin.ModelAdmin):
-    list_display = ('user', 'sender', 'read', 'archived')
+    list_display = ('id', 'user', 'sender', 'read', 'archived', 'timestamp')
 
 # Register your models here.
 
