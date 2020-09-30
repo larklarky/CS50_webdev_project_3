@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector('#reply').addEventListener('click', reply);
+
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -125,7 +127,8 @@ function load_email(event) {
   document.querySelector('#email').style.display = 'block';
 
   let emailId = event.target.dataset.id;
-  console.log('email id', emailId)
+  // console.log('email id', emailId)
+  document.querySelector('#reply').dataset.id = emailId;
 
   fetch(`/emails/${emailId}`)
   .then(response => response.json())
@@ -170,3 +173,59 @@ function archive_email(event) {
   }
   load_mailbox('inbox');
 }
+
+function reply(event) {
+  let emailId = event.target.dataset.id;
+  
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#error-message').style.display = 'none';
+  document.querySelector('#email').style.display = 'none';
+
+  fetch(`/emails/${emailId}`)
+  .then(response => response.json())
+  .then(email => {
+    let subject = email.subject
+    
+    document.querySelector('#compose-recipients').value = email.sender;
+
+    if (subject.search(/Re:/i) === 0) {
+      document.querySelector('#compose-subject').value = `${email.subject}`;
+    } else {
+      document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
+    }
+    
+    document.querySelector('#compose-body').value = `\n \n >>>>>>>> \n On ${email.timestamp} ${email.sender} wrote: ${email.body}` ;
+    document.querySelector('#compose-body').focus()
+    document.querySelector('#compose-body').selectionEnd = 0;
+  });
+
+  document.querySelector('#compose-form').onsubmit = (event) => {
+    fetch('/emails', {
+      method: 'POST',
+      body: JSON.stringify({
+          recipients: document.querySelector('#compose-recipients').value,
+          subject: document.querySelector('#compose-subject').value,
+          body: document.querySelector('#compose-body').value
+      })
+    })
+    .then(response => {
+      response.json().then(result => {
+        if (response.status == 201) {
+          load_mailbox('sent');
+        } else {
+          document.querySelector('#error-message').style.display = 'block';
+          document.querySelector('#error-message').innerHTML = result.error;
+
+        }
+      })
+    })
+    .catch(error => {
+      console.log('Something went wrong', error)
+    })
+    event.preventDefault();
+
+  }
+  
+
+} 
