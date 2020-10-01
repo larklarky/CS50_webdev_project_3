@@ -55,3 +55,8 @@ textarea {
     background-color: gray;
     border-color: gray;
 }
+
+#send-email {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
