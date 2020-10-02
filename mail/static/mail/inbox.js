@@ -127,7 +127,6 @@ function load_email(event) {
   document.querySelector('#email').style.display = 'block';
 
   let emailId = event.target.dataset.id;
-  // console.log('email id', emailId)
   document.querySelector('#reply').dataset.id = emailId;
 
   fetch(`/emails/${emailId}`)
@@ -154,7 +153,6 @@ function load_email(event) {
 function archive_email(event) {
   let emailId = event.target.dataset.id;
   let status = event.target.dataset.archived;
-  console.log('status', typeof status, status == false)
 
   if (status == 'false') {
     fetch(`/emails/${emailId}`, {
@@ -163,6 +161,9 @@ function archive_email(event) {
           archived: true
       })
     })
+    .then(() => {
+      load_mailbox('inbox')
+    })
   } else {
     fetch(`/emails/${emailId}`, {
       method: 'PUT',
@@ -170,8 +171,11 @@ function archive_email(event) {
           archived: false
       })
     })
+    .then(() => {
+      load_mailbox('inbox')
+    })
   }
-  load_mailbox('inbox');
+  
 }
 
 function reply(event) {
