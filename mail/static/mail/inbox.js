@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.querySelector('#reply').addEventListener('click', reply);
+  
 
 
   // By default, load the inbox
@@ -84,7 +85,7 @@ function load_mailbox(mailbox) {
         sender.innerHTML = email.sender;
         sender.className = 'email-sender';
         sender.dataset.id = email.id;
-        sender.onclick = load_email;
+        sender.addEventListener('click', load_email);
         emailContainer.append(sender)
         
 
@@ -92,7 +93,7 @@ function load_mailbox(mailbox) {
         subject.innerHTML = email.subject;
         subject.className = 'email-subject';
         subject.dataset.id = email.id;
-        subject.onclick = load_email;
+        subject.addEventListener('click', load_email);
         emailContainer.append(subject)
 
         let timestamp = document.createElement('div');
@@ -115,8 +116,8 @@ function load_mailbox(mailbox) {
           emailContainer.append(archive)
         }
         
-
         document.querySelector('#emails-view').append(emailContainer)
+        
       }
   })
 }
